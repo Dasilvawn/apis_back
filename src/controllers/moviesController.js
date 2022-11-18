@@ -10,7 +10,7 @@ const fetch = require('node-fetch');
 const Movies = db.Movie;
 const Genres = db.Genre;
 const Actors = db.Actor;
-const API = 'http://www.omdbapi.com/?apikey=d4e35e92';
+const URL_OMDB = 'http://www.omdbapi.com';
 
 const moviesController = {
     'list': (req, res) => {
