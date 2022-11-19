@@ -65,8 +65,10 @@ const moviesController = {
             let response = await fetch(`${ URL_OMDB}&t=${titulo}`)
             let result= await response.json() //este metodo json me convierte, me parsea, en lo que sea, en un objeto, un array, un array de objeto  
            
-              return res.send(result)
-     
+              return res.render('moviesDetailOmdb', {
+                movie: result
+              });
+
         } catch (error) {
             console.log(error);
         }
