@@ -1,16 +1,18 @@
+require('dotenv').config();
 const path = require('path');
 const db = require('../database/models');
 const sequelize = db.sequelize;
 const { Op } = require("sequelize");
 const moment = require('moment');
 const fetch = require('node-fetch');
+const { response } = require('express');
 
 
 //Aqui tienen otra forma de llamar a cada uno de los modelos
 const Movies = db.Movie;
 const Genres = db.Genre;
 const Actors = db.Actor;
-const URL_OMDB = 'http://www.omdbapi.com';
+const URL_OMDB = `http://www.omdbapi.com?apikey=${process.env.OMDB_APIKEY}`;
 
 const moviesController = {
     'list': (req, res) => {
@@ -56,8 +58,18 @@ const moviesController = {
             });
     },
     //Aqui debo modificar para crear la funcionalidad requerida
-    'buscar': (req, res) => {
-        
+    buscar: async (req, res) => {
+        try {
+            const{titulo} = req.body;//el titulo sale del imput=name del movieList
+               
+            let response = await fetch(`${ URL_OMDB}&t=${titulo}`)
+            let result= await response.json() //este metodo json me convierte, me parsea, en lo que sea, en un objeto, un array, un array de objeto  
+           
+              return res.send(result)
+     
+        } catch (error) {
+            console.log(error);
+        }
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
